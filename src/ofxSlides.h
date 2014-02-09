@@ -6,14 +6,16 @@ class ofxSlides {
 private:
 	int turn; // increment within draw()
 	int page; // current page num to display
-	
+	int count; // for animation etc.
+	int maxCount;
 
 public:
-	ofxSlides() : turn(0), page(0) {
+	ofxSlides() : turn(0), page(0), count(0), maxCount(3600) {
 		enable();
 	}
 	
 	int getPage() const;
+	int getCount() const;
 	
 	void enable();
 	void disable();

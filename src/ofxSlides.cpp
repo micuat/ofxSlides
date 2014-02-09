@@ -4,10 +4,17 @@ int ofxSlides::getPage() const {
 	return page;
 }
 
+int ofxSlides::getCount() const {
+	return count;
+}
+
 void ofxSlides::update(ofEventArgs &args) {
+	count++;
+	count %= maxCount;
 }
 
 void ofxSlides::keyPressed(ofKeyEventArgs &args) {
+	count = 0;
 	
 	if( args.key == OF_KEY_RIGHT ) {
 		page++;
@@ -24,13 +31,13 @@ void ofxSlides::keyReleased(ofKeyEventArgs &args) {
 }
 
 void ofxSlides::enable() {
-	//ofAddListener(ofEvents().update, this, &ofxSlides::update);
+	ofAddListener(ofEvents().update, this, &ofxSlides::update);
 	ofAddListener(ofEvents().keyPressed, this, &ofxSlides::keyPressed);
 	ofAddListener(ofEvents().keyReleased, this, &ofxSlides::keyReleased);
 }
 
 void ofxSlides::disable() {
-	//ofRemoveListener(ofEvents().update, this, &ofxSlides::update);
+	ofRemoveListener(ofEvents().update, this, &ofxSlides::update);
 	ofRemoveListener(ofEvents().keyPressed, this, &ofxSlides::keyPressed);
 	ofRemoveListener(ofEvents().keyReleased, this, &ofxSlides::keyReleased);
 }
