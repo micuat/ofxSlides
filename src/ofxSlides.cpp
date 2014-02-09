@@ -12,13 +12,60 @@ int ofxSlides::getCount() const {
 	return count;
 }
 
+void ofxSlides::loadVideos(string path) {
+	ofDirectory dir;
+	dir.listDir(path);
+	dir.sort();
+	
+	if( dir.size() ){
+		videos.assign(dir.size(), ofVideoPlayer());
+		doUpdateVideo.assign(dir.size(), 0);
+	}
+	
+	for( int i = 0 ; i < (int)dir.size(); i++ ) {
+		videos.at(i).loadMovie(dir.getPath(i));
+	}
+}
+
+ofVideoPlayer & ofxSlides::getVideo(int i) {
+	return videos.at(i);
+}
+
+void ofxSlides::drawVideoAt(int i, int x, int y) {
+	assert( 0 <= i && i < videos.size() );
+	
+	if( doUpdateVideo.at(i) == 0 ) {
+		doUpdateVideo.at(i) = 1;
+		videos.at(i).play();
+	}
+	videos.at(i).draw(x, y);
+}
+
 void ofxSlides::update(ofEventArgs &args) {
 	count++;
 	count %= maxCount;
+	
+	// update displayed videos
+	for( int i = 0; i < doUpdateVideo.size() ; i++ ) {
+		if( doUpdateVideo.at(i) > 0 ) {
+			videos.at(i).update();
+		}
+	}
 }
 
 void ofxSlides::keyPressed(ofKeyEventArgs &args) {
-	count = 0;
+	if( args.key == OF_KEY_RIGHT || args.key == OF_KEY_LEFT ) {
+		count = 0;
+		
+		// refresh video update flags
+		for( int i = 0; i < doUpdateVideo.size() ; i++ ) {
+			if( doUpdateVideo.at(i) > 0 ) {
+				doUpdateVideo.at(i) = 0;
+				videos.at(i).stop();
+				videos.at(i).setFrame(0);
+			}
+		}
+	}
 	
 	if( args.key == OF_KEY_RIGHT ) {
 		page++;

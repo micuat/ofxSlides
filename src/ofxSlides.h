@@ -8,6 +8,9 @@ private:
 	int page; // current page num to display
 	int count; // for animation etc.
 	int maxCount;
+	
+	vector<ofVideoPlayer> videos;
+	vector<unsigned char> doUpdateVideo;
 
 public:
 	ofxSlides() : turn(0), page(0), count(0), maxCount(3600) {
@@ -17,6 +20,10 @@ public:
 	int getPage() const;
 	void setPage(int);
 	int getCount() const;
+	
+	void loadVideos(string);
+	ofVideoPlayer & getVideo(int);
+	void drawVideoAt(int, int x = 0, int y = 0);
 	
 	void enable();
 	void disable();
