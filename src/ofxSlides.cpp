@@ -4,6 +4,10 @@ int ofxSlides::getPage() const {
 	return page;
 }
 
+void ofxSlides::setPage(int _page) {
+	page = _page;
+}
+
 int ofxSlides::getCount() const {
 	return count;
 }

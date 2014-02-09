@@ -15,6 +15,7 @@ public:
 	}
 	
 	int getPage() const;
+	void setPage(int);
 	int getCount() const;
 	
 	void enable();
