@@ -47,8 +47,9 @@ void testApp::draw(){
 		verdana30.drawString("Perhaps useful for showing vector of images", 30, 200);
 	}
 	else if( s++ ) {
-		verdana30.drawString("And even meshes...", 30, 100);
+		verdana30.drawString("And even interactive meshes...", 30, 100);
 		cam.begin();
+		ofRotate((float)s.getCount(), 0, 1, 0);
 		plane.drawWireframe();
 		cam.end();
 	}
