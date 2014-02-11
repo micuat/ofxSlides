@@ -3,6 +3,11 @@ ofxSlides
 
 Naoto HIÉDA <micuat@gmail.com>, 09 Feb 2014
 
+Quick Demo Video
+--------
+
+Demo using `example_simple`: <http://www.youtube.com/watch?v=U0DnBADky6I>
+
 
 About
 --------
