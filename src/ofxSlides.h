@@ -8,6 +8,9 @@ private:
 	int page; // current page num to display
 	int count; // for animation etc.
 	int maxCount;
+	float lastTurnedTime;
+	enum Direction {TURNED_NEXT, TURNED_BACK, TURNED_NONE};
+	Direction direction;
 	
 	vector<ofVideoPlayer> videos;
 	vector<unsigned char> doUpdateVideo;
@@ -20,6 +23,7 @@ public:
 	int getPage() const;
 	void setPage(int);
 	int getCount() const;
+	float getElapsed() const;
 	
 	void loadVideos(string);
 	ofVideoPlayer & getVideo(int);

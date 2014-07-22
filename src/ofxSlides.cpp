@@ -12,6 +12,16 @@ int ofxSlides::getCount() const {
 	return count;
 }
 
+float ofxSlides::getElapsed() const {
+	if( direction == TURNED_NONE ) return 0;
+	return ofGetElapsedTimef() - lastTurnedTime;
+
+//	else if( direction == TURNED_NEXT )
+//		return ofGetElapsedTimef() - lastTurnedTime;
+//	else if( direction == TURNED_BACK )
+//		return 1-(ofGetElapsedTimef() - lastTurnedTime);
+}
+
 void ofxSlides::loadVideos(string path) {
 	ofDirectory dir;
 	dir.listDir(path);
@@ -56,6 +66,7 @@ void ofxSlides::update(ofEventArgs &args) {
 void ofxSlides::keyPressed(ofKeyEventArgs &args) {
 	if( args.key == OF_KEY_RIGHT || args.key == OF_KEY_LEFT ) {
 		count = 0;
+		lastTurnedTime = ofGetElapsedTimef();
 		
 		// refresh video update flags
 		for( int i = 0; i < doUpdateVideo.size() ; i++ ) {
@@ -69,11 +80,13 @@ void ofxSlides::keyPressed(ofKeyEventArgs &args) {
 	
 	if( args.key == OF_KEY_RIGHT ) {
 		page++;
+		direction = TURNED_NEXT;
 	}
 	
 	if( args.key == OF_KEY_LEFT ) {
 		if( page > 0 ) {
 			page--;
+			direction = TURNED_BACK;
 		}
 	}
 }
@@ -82,6 +95,9 @@ void ofxSlides::keyReleased(ofKeyEventArgs &args) {
 }
 
 void ofxSlides::enable() {
+	lastTurnedTime = ofGetElapsedTimef();
+	direction = TURNED_NONE;
+	
 	ofAddListener(ofEvents().update, this, &ofxSlides::update);
 	ofAddListener(ofEvents().keyPressed, this, &ofxSlides::keyPressed);
 	ofAddListener(ofEvents().keyReleased, this, &ofxSlides::keyReleased);
