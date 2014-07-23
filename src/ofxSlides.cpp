@@ -6,6 +6,7 @@ int ofxSlides::getPage() const {
 
 void ofxSlides::setPage(int _page) {
 	page = _page;
+	lastTurnedTime = ofGetElapsedTimef();
 }
 
 int ofxSlides::getCount() const {
