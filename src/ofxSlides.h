@@ -22,6 +22,7 @@ public:
 	
 	int getPage() const;
 	void setPage(int);
+	void proceed();
 	int getCount() const;
 	float getElapsed() const;
 	

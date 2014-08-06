@@ -9,12 +9,16 @@ void ofxSlides::setPage(int _page) {
 	lastTurnedTime = ofGetElapsedTimef();
 }
 
+void ofxSlides::proceed() {
+	setPage(page + 1);
+}
+
 int ofxSlides::getCount() const {
 	return count;
 }
 
 float ofxSlides::getElapsed() const {
-	if( direction == TURNED_NONE ) return 0;
+//	if( direction == TURNED_NONE ) return 0;
 	return ofGetElapsedTimef() - lastTurnedTime;
 
 //	else if( direction == TURNED_NEXT )
