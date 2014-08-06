@@ -60,23 +60,23 @@ void ofApp::draw(){
 			line.draw();
 		}
 		cam.end();
-		//if( s.getElapsed() > 3.f ) s.setPage(s.getPage()+1);
+		if( s.getElapsed() > 3.f ) s.proceed();
 	}
 	else if( s++ ) {
 		ofSetLineWidth(ofMap(s.getElapsed(), 0, 2, 2, 1, true));
 		ofSetColor(color);
 		drawPoints(1, true);
-		if( s.getElapsed() > 2.f ) s.setPage(s.getPage()+1);
+		if( s.getElapsed() > 2.f ) s.proceed();
 	}
 	else if( s++ ) {
 		ofSetColor(color);
 		drawPoints(ofMap(s.getElapsed(), 0, 1, 1, 6, true), false);
-		if( s.getElapsed() > 1.f ) s.setPage(s.getPage()+1);
+		if( s.getElapsed() > 1.f ) s.proceed();
 	}
 	else if( s++ ) {
 		ofSetColor(color);
 		drawPoints(ofMap(s.getElapsed(), 0, 3, 6, 0, true), false);
-		if( s.getElapsed() > 3.f ) s.setPage(s.getPage()+1);
+		if( s.getElapsed() > 3.f ) s.proceed();
 	}
 	
 	s.end();
