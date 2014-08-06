@@ -40,39 +40,19 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	ofBackground(104, 255);
+	ofBackground(24, 255);
 	
 	s.begin();
 	
 	//ofRotate(ofMap(ofGetElapsedTimef(), 0, 2, 0, 360), 0, 1, 0);
 	ofColor color;
+	color = ofColor(200, 255);
 	ofFill();
 	
 	if( s++ ) {
 		ofNoFill();
 		cam.begin();
 		
-//		ofPushMatrix();
-//		ofTranslate(5*(ofGetElapsedTimef() * 2 - (long)(ofGetElapsedTimef() * 2)), 0, 0);
-//		ofSetColor(ofColor::paleVioletRed);
-//		for (int i = 0; i < (int)polylines.size(); i++){
-//			ofPolyline & line = polylines[i];
-//			
-//			line.draw();
-//		}
-//		ofPopMatrix();
-//		
-//		ofPushMatrix();
-//		ofTranslate(-5*(ofGetElapsedTimef() * 2 - (long)(ofGetElapsedTimef() * 2)), 0, 0);
-//		ofSetColor(ofColor::mintCream);
-//		for (int i = 0; i < (int)polylines.size(); i++){
-//			ofPolyline & line = polylines[i];
-//			
-//			line.draw();
-//		}
-//		ofPopMatrix();
-		
-		color = ofColor(0, 128);
 		ofSetColor(color);
 		for (int i = 0; i < (int)polylines.size(); i++){
 			ofPolyline & line = polylines[i];
@@ -80,23 +60,23 @@ void ofApp::draw(){
 			line.draw();
 		}
 		cam.end();
+		//if( s.getElapsed() > 3.f ) s.setPage(s.getPage()+1);
 	}
 	else if( s++ ) {
 		ofSetLineWidth(ofMap(s.getElapsed(), 0, 2, 2, 1, true));
-		color = ofColor(0, 128);
-		color.lerp(ofColor::red, ofClamp(s.getElapsed(), 0, 1));
 		ofSetColor(color);
 		drawPoints(1, true);
+		if( s.getElapsed() > 2.f ) s.setPage(s.getPage()+1);
 	}
 	else if( s++ ) {
-		color.setHsb(ofMap(s.getElapsed(), 0, 1, 0, 100, true), 255, 255);
 		ofSetColor(color);
-		drawPoints(ofMap(s.getElapsed(), 0, 1, 1, 3, true), false);
+		drawPoints(ofMap(s.getElapsed(), 0, 1, 1, 6, true), false);
+		if( s.getElapsed() > 1.f ) s.setPage(s.getPage()+1);
 	}
 	else if( s++ ) {
-		color.setHsb(ofMap(s.getElapsed(), 0, 1, 100, 200, true), 255, 255);
 		ofSetColor(color);
-		drawPoints(ofMap(s.getElapsed(), 0, 3, 3, 0, true), false);
+		drawPoints(ofMap(s.getElapsed(), 0, 3, 6, 0, true), false);
+		if( s.getElapsed() > 3.f ) s.setPage(s.getPage()+1);
 	}
 	
 	s.end();
