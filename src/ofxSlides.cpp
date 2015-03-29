@@ -32,28 +32,24 @@ void ofxSlides::loadVideos(string path) {
 	dir.listDir(path);
 	dir.sort();
 	
-	if( dir.size() ){
-		videos.assign(dir.size(), ofVideoPlayer());
-		doUpdateVideo.assign(dir.size(), 0);
-	}
-	
 	for( int i = 0 ; i < (int)dir.size(); i++ ) {
-		videos.at(i).loadMovie(dir.getPath(i));
+		videos.insert(pair<string,ofVideoPlayer>(dir.getName(i),ofVideoPlayer()));
+		videos.at(dir.getName(i)).loadMovie(dir.getPath(i));
+		doUpdateVideo.insert(pair<string,unsigned char>(dir.getName(i),0));
 	}
 }
 
-ofVideoPlayer & ofxSlides::getVideo(int i) {
-	return videos.at(i);
+ofVideoPlayer & ofxSlides::getVideo(string s) {
+	return videos.at(s);
 }
 
-void ofxSlides::drawVideoAt(int i, int x, int y) {
-	assert( 0 <= i && i < videos.size() );
-	
-	if( doUpdateVideo.at(i) == 0 ) {
-		doUpdateVideo.at(i) = 1;
-		videos.at(i).play();
+void ofxSlides::drawVideoAt(string s, int x, int y) {
+	if( doUpdateVideo.at(s) == 0 ) {
+		doUpdateVideo.at(s) = 1;
+		videos.at(s).play();
+		videos.at(s).update();
 	}
-	videos.at(i).draw(x, y);
+	videos.at(s).draw(x, y);
 }
 
 void ofxSlides::update(ofEventArgs &args) {
@@ -61,9 +57,10 @@ void ofxSlides::update(ofEventArgs &args) {
 	count %= maxCount;
 	
 	// update displayed videos
-	for( int i = 0; i < doUpdateVideo.size() ; i++ ) {
-		if( doUpdateVideo.at(i) > 0 ) {
-			videos.at(i).update();
+	typedef map<string, ofVideoPlayer>::iterator it_type;
+	for(it_type iterator = videos.begin(); iterator != videos.end(); iterator++) {
+		if( doUpdateVideo.at(iterator->first) > 0 ) {
+			iterator->second.update();
 		}
 	}
 }
@@ -74,11 +71,12 @@ void ofxSlides::keyPressed(ofKeyEventArgs &args) {
 		lastTurnedTime = ofGetElapsedTimef();
 		
 		// refresh video update flags
-		for( int i = 0; i < doUpdateVideo.size() ; i++ ) {
-			if( doUpdateVideo.at(i) > 0 ) {
-				doUpdateVideo.at(i) = 0;
-				videos.at(i).stop();
-				videos.at(i).setFrame(0);
+		typedef map<string, ofVideoPlayer>::iterator it_type;
+		for(it_type iterator = videos.begin(); iterator != videos.end(); iterator++) {
+			if( doUpdateVideo.at(iterator->first) > 0 ) {
+				doUpdateVideo.at(iterator->first) = 0;
+				iterator->second.stop();
+				iterator->second.setFrame(0);
 			}
 		}
 	}

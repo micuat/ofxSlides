@@ -12,8 +12,8 @@ private:
 	enum Direction {TURNED_NEXT, TURNED_BACK, TURNED_NONE};
 	Direction direction;
 	
-	vector<ofVideoPlayer> videos;
-	vector<unsigned char> doUpdateVideo;
+	map<string, ofVideoPlayer> videos;
+	map<string, unsigned char> doUpdateVideo;
 
 public:
 	ofxSlides() : turn(0), page(0), count(0), maxCount(3600) {
@@ -27,8 +27,8 @@ public:
 	float getElapsed() const;
 	
 	void loadVideos(string);
-	ofVideoPlayer & getVideo(int);
-	void drawVideoAt(int, int x = 0, int y = 0);
+	ofVideoPlayer & getVideo(string);
+	void drawVideoAt(string, int x = 0, int y = 0);
 	
 	void enable();
 	void disable();
